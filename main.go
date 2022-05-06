@@ -2,12 +2,13 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+
+	json "github.com/json-iterator/go"
 )
 
 var (
@@ -44,6 +45,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("sendDingtalkMsg: %s", err)
 		http.Error(w, "sendDingtalkMsg: "+err.Error(), http.StatusInternalServerError)
 	} else {
+		b, _ := json.Marshal(msg)
+		log.Printf("sendDingtalkMsg: %s", b)
 		w.Write(respData)
 	}
 }
